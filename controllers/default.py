@@ -8,6 +8,8 @@
 ## - download is for downloading files uploaded in the db (does streaming)
 ## - api is an example of Hypermedia API support and access control
 #########################################################################
+auth = Auth(db)
+
 
 def index():
     """
@@ -20,7 +22,20 @@ def index():
     response.flash = T("Welcome to web2py!")
     return dict(message=T('Hello World'))
 
+@auth.requires_login()
+def retard():
+    hello = "Hello"
+    return locals()
 
+#def register():
+ #   form = SQLFORM(db.student).process()
+  #  return dict(form=auth.register())
+
+#def login():
+    form = SQLFORM(auth_user).process()
+    return dict(form=auth.login())
+
+@auth.requires_login()
 def user():
     """
     exposes:
